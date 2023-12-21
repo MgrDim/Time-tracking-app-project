@@ -1,0 +1,71 @@
+﻿namespace TimeTrackingApp
+{
+    partial class ChangeNameForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            NewLoginBox = new TextBox();
+            ChangeLoginButton = new Button();
+            SuspendLayout();
+            // 
+            // NewLoginBox
+            // 
+            NewLoginBox.Location = new Point(132, 60);
+            NewLoginBox.Name = "NewLoginBox";
+            NewLoginBox.Size = new Size(268, 27);
+            NewLoginBox.TabIndex = 0;
+            // 
+            // ChangeLoginButton
+            // 
+            ChangeLoginButton.Location = new Point(193, 105);
+            ChangeLoginButton.Name = "ChangeLoginButton";
+            ChangeLoginButton.Size = new Size(138, 29);
+            ChangeLoginButton.TabIndex = 1;
+            ChangeLoginButton.Text = "Изменить имя";
+            ChangeLoginButton.UseVisualStyleBackColor = true;
+            ChangeLoginButton.Click += ChangeLoginButton_Click;
+            // 
+            // ChangeNameForm
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(525, 178);
+            Controls.Add(ChangeLoginButton);
+            Controls.Add(NewLoginBox);
+            Name = "ChangeNameForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "ChangeNameForm";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private TextBox NewLoginBox;
+        private Button ChangeLoginButton;
+    }
+}
