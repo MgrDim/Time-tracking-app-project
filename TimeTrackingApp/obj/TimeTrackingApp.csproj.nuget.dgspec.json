@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\jenya\\source\\repos\\TimeTrackingApp\\TimeTrackingApp\\TimeTrackingApp.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\jenya\\source\\repos\\TimeTrackingApp\\TimeTrackingApp\\TimeTrackingApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\jenya\\source\\repos\\TimeTrackingApp\\TimeTrackingApp\\TimeTrackingApp.csproj",
+        "projectName": "TimeTrackingApp",
+        "projectPath": "C:\\Users\\jenya\\source\\repos\\TimeTrackingApp\\TimeTrackingApp\\TimeTrackingApp.csproj",
+        "packagesPath": "C:\\Users\\jenya\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jenya\\source\\repos\\TimeTrackingApp\\TimeTrackingApp\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\jenya\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
+          "dependencies": {
+            "Aspose.Cells": {
+              "target": "Package",
+              "version": "[23.12.0, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
