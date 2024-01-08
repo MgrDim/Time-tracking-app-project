@@ -37,9 +37,12 @@
             // 
             NewLoginBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             NewLoginBox.Location = new Point(132, 60);
+            NewLoginBox.MaxLength = 255;
             NewLoginBox.Name = "NewLoginBox";
             NewLoginBox.Size = new Size(268, 27);
-            NewLoginBox.TabIndex = 0;
+            NewLoginBox.TabIndex = 1;
+            NewLoginBox.Enter += NewLoginBox_Enter;
+            NewLoginBox.Leave += NewLoginBox_Leave;
             // 
             // ChangeLoginButton
             // 
@@ -48,7 +51,7 @@
             ChangeLoginButton.Location = new Point(193, 105);
             ChangeLoginButton.Name = "ChangeLoginButton";
             ChangeLoginButton.Size = new Size(138, 29);
-            ChangeLoginButton.TabIndex = 1;
+            ChangeLoginButton.TabIndex = 0;
             ChangeLoginButton.Text = "Изменить имя";
             ChangeLoginButton.UseVisualStyleBackColor = true;
             ChangeLoginButton.Click += ChangeLoginButton_Click;
@@ -68,6 +71,7 @@
             Name = "ChangeNameForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TimeTrackingApp";
+            Load += ChangeNameForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -33,36 +33,59 @@ namespace TimeTrackingApp
             if (AreDateBoxesEmpty()) return;
 
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{fileNameBox.Text}.xlsx");
-            var workbook = CreateWorkbook();
 
-            try
-            {
-                workbook.Save(path);
-                MessageBox.Show("Файл сохранен", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            Close();
-        }
-
-        private Workbook CreateWorkbook()
-        {
             var startdate = DateOnly.Parse(firstDateBox.Text);
             var enddate = DateOnly.Parse(secondDateBox.Text);
+            var datatable = GetData(startdate, enddate);
+            var workbook = CreateWorkbook(datatable);
 
+            if (datatable.Rows.Count > 0)
+            {
+                try
+                {
+                    workbook.Save(path);
+                    MessageBox.Show("Файл сохранен", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Произошла ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                var dialogresult = MessageBox.Show("За данный промежуток времени не было выполнено никаких задач. " +
+                    "Хотите ли вы создать Excel-файл?", "Сообщение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (dialogresult == DialogResult.Yes)
+                {
+                    try
+                    {
+                        workbook.Save(path);
+                        MessageBox.Show("Файл сохранен", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Произошла ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private Workbook CreateWorkbook(DataTable datatable)
+        {
             var workbook = new Workbook();
             var worksheet = workbook.Worksheets[0];
             worksheet.Name = "Отчет";
-            var datatable = GetData(startdate, enddate);
+
             var tableoptions = new ImportTableOptions { IsFieldNameShown = true };
 
             worksheet.Cells.ImportData(datatable, 0, 0, tableoptions);
 
-            worksheet.Cells.Columns[0].Width = 30;
-            worksheet.Cells.Columns[1].Width = 30;
-            worksheet.Cells.Columns[2].Width = 30;
+            worksheet.Cells.Columns[0].Width = 40;
+            worksheet.Cells.Columns[1].Width = 40;
+            worksheet.Cells.Columns[2].Width = 40;
 
             return workbook;
         }

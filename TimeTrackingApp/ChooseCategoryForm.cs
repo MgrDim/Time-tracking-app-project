@@ -25,18 +25,18 @@ namespace TimeTrackingApp
             InitializeComponent();
         }
 
-        private void categoryNameBox_Enter(object sender, EventArgs e)
+        private void ChooseCategoryForm_Load(object sender, EventArgs e)
         {
             var categories = _category.GetAllNames();
             foreach (var category in categories)
             {
-                categoryNameBox.Items.Add(category);
+                categoryBox.Items.Add(category);
             }
         }
 
         private void chooseButton_Click(object sender, EventArgs e)
         {
-            _category.Name = categoryNameBox.Text;
+            _category.Name = categoryBox.Text;
 
             if (_category.Name != null)
             {

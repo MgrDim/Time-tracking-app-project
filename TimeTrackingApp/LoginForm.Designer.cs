@@ -42,6 +42,7 @@
             // 
             LoginBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             LoginBox.Location = new Point(264, 140);
+            LoginBox.MaxLength = 255;
             LoginBox.Name = "LoginBox";
             LoginBox.Size = new Size(285, 27);
             LoginBox.TabIndex = 1;

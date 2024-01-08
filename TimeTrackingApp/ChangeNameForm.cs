@@ -14,12 +14,19 @@ namespace TimeTrackingApp
 {
     public partial class ChangeNameForm : Form
     {
+
+        string _initialNewLoginBoxText = "Введите новое имя пользователя";
         User _user { get; set; }
 
         public ChangeNameForm(User user)
         {
             _user = user;
             InitializeComponent();
+        }
+
+        private void ChangeNameForm_Load(object sender, EventArgs e)
+        {
+            NewLoginBox.Text = _initialNewLoginBoxText;
         }
 
         private void ChangeLoginButton_Click(object sender, EventArgs e)
@@ -33,6 +40,18 @@ namespace TimeTrackingApp
             _user.ChangeName(NewLoginBox.Text);
 
             Close();
+        }
+
+        private void NewLoginBox_Enter(object sender, EventArgs e)
+        {
+            if (NewLoginBox.Text == _initialNewLoginBoxText)
+                NewLoginBox.Text = string.Empty;
+        }
+
+        private void NewLoginBox_Leave(object sender, EventArgs e)
+        {
+            if (NewLoginBox.Text == string.Empty)
+                NewLoginBox.Text = _initialNewLoginBoxText;
         }
     }
 }

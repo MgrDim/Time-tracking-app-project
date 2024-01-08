@@ -33,6 +33,9 @@ namespace TimeTrackingApp
 
         private void AuthButton_Click(object sender, EventArgs e)
         {
+            var DB = new DataBase();
+            if (!DB.ConnectionCheck()) return;
+
             User.Name = LoginBox.Text;
             var enteredPassword = PassBox.Text;
 
@@ -43,8 +46,6 @@ namespace TimeTrackingApp
                 LoginFail();
                 return;
             }
-
-            var DB = new DataBase();
 
             var command = new NpgsqlCommand("SELECT user_password FROM users" +
                 " WHERE user_login = @userlogin", DB.Connection);

@@ -24,7 +24,7 @@ namespace TimeTrackingApp
         {
             _activity.Name = ActivityNameBox.Text;
 
-            if (_activity.Name != null)
+            if (_activity.Name != null || _activity.Name != string.Empty)
             {
                 var DB = new DataBase();
 
@@ -42,6 +42,8 @@ namespace TimeTrackingApp
                 _activity.SetId();
                 Close();
             }
+            else
+                MessageBox.Show("Сформулируйте задачу", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void NameActivityForm_FormClosing(object sender, FormClosingEventArgs e)

@@ -36,5 +36,20 @@ namespace TimeTrackingApp
                 MessageBox.Show("Произошла ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public bool ConnectionCheck()
+        {
+            try
+            {
+                _connection.Open();
+            }
+            catch
+            {
+                MessageBox.Show("Произошла ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            _connection.Close();
+            return true;
+        }
     }
 }

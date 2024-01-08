@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            PictureBox pictureBox1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            pictureBox1 = new PictureBox();
             timer = new System.Windows.Forms.Timer(components);
             StartTimerButton = new Button();
             StopTimerButton = new Button();
@@ -42,7 +42,6 @@
             refreshButton = new Button();
             exportButton = new Button();
             TimerLabel = new Label();
-            pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
@@ -112,14 +111,14 @@
             // ChangeName
             // 
             ChangeName.Name = "ChangeName";
-            ChangeName.Size = new Size(184, 26);
+            ChangeName.Size = new Size(224, 26);
             ChangeName.Text = "Сменить имя";
             ChangeName.Click += ChangeName_Click;
             // 
             // Exit
             // 
             Exit.Name = "Exit";
-            Exit.Size = new Size(184, 26);
+            Exit.Size = new Size(224, 26);
             Exit.Text = "Выйти";
             Exit.Click += Exit_Click;
             // 

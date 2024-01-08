@@ -29,26 +29,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChooseCategoryForm));
-            categoryNameBox = new ComboBox();
             chooseButton = new Button();
             label1 = new Label();
+            categoryBox = new ListBox();
             SuspendLayout();
-            // 
-            // categoryNameBox
-            // 
-            categoryNameBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            categoryNameBox.Location = new Point(242, 89);
-            categoryNameBox.MaxDropDownItems = 10;
-            categoryNameBox.Name = "categoryNameBox";
-            categoryNameBox.Size = new Size(245, 28);
-            categoryNameBox.TabIndex = 1;
-            categoryNameBox.Enter += categoryNameBox_Enter;
             // 
             // chooseButton
             // 
             chooseButton.FlatStyle = FlatStyle.System;
             chooseButton.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            chooseButton.Location = new Point(198, 191);
+            chooseButton.Location = new Point(195, 207);
             chooseButton.Name = "chooseButton";
             chooseButton.Size = new Size(146, 29);
             chooseButton.TabIndex = 0;
@@ -68,6 +58,18 @@
             label1.TabIndex = 2;
             label1.Text = "Выберите категорию задачи:";
             // 
+            // categoryBox
+            // 
+            categoryBox.BackColor = Color.White;
+            categoryBox.FormattingEnabled = true;
+            categoryBox.HorizontalScrollbar = true;
+            categoryBox.ItemHeight = 20;
+            categoryBox.Location = new Point(242, 43);
+            categoryBox.Name = "categoryBox";
+            categoryBox.Size = new Size(277, 124);
+            categoryBox.Sorted = true;
+            categoryBox.TabIndex = 3;
+            // 
             // ChooseCategoryForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -75,9 +77,9 @@
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(552, 284);
+            Controls.Add(categoryBox);
             Controls.Add(label1);
             Controls.Add(chooseButton);
-            Controls.Add(categoryNameBox);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(570, 331);
             MinimumSize = new Size(570, 331);
@@ -85,14 +87,14 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TimeTrackingApp";
             FormClosing += ChooseCategory_FormClosing;
+            Load += ChooseCategoryForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private ComboBox categoryNameBox;
         private Button chooseButton;
         private Label label1;
+        private ListBox categoryBox;
     }
 }
