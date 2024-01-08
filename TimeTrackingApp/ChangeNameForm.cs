@@ -14,7 +14,7 @@ namespace TimeTrackingApp
 {
     public partial class ChangeNameForm : Form
     {
-        User _user {  get; set; }
+        User _user { get; set; }
 
         public ChangeNameForm(User user)
         {
@@ -24,17 +24,16 @@ namespace TimeTrackingApp
 
         private void ChangeLoginButton_Click(object sender, EventArgs e)
         {
-            _user.Name = NewLoginBox.Text;
-
-            if (_user.DoesExist())
+            if (_user.DoesExist(NewLoginBox.Text))
             {
                 MessageBox.Show("Пользователь с данным логином существует", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            _user.ChangeName();
+            _user.ChangeName(NewLoginBox.Text);
 
             Close();
         }
     }
 }
+

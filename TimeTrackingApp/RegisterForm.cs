@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,13 +35,19 @@ namespace TimeTrackingApp
             if (IsLoginFieldEmpty()) return;
             if (IsPasswordFieldEmpty()) return;
 
-            string login = LoginBox.Text;
-            string password = PassBox.Text;
-            string repPassword = RepPassBox.Text;
+            var login = LoginBox.Text;
+            var password = PassBox.Text;
+            var repPassword = RepPassBox.Text;
 
             if (!PasswordValidation(PassBox.Text)) return;
             if (!DoPasswordsMatch(password, repPassword)) return;
             if (DoesUserExist(login)) return;
+
+            //
+            var salt = GenerateSalt();
+            var hashedPassword = GenerateSHA256Hash(password, salt);
+            var passwordInDB = $"{ConvertByteArrToHexString(hashedPassword)}${salt}";
+            //
 
             var DB = new DataBase();
 
@@ -48,7 +55,7 @@ namespace TimeTrackingApp
                 " VALUES (@userlogin, @userpass)", DB.Connection);
 
             command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = login;
-            command.Parameters.Add("@userpass", NpgsqlTypes.NpgsqlDbType.Varchar).Value = password;
+            command.Parameters.Add("@userpass", NpgsqlTypes.NpgsqlDbType.Varchar).Value = passwordInDB;
 
             DB.OpenConnection();
 
@@ -63,7 +70,7 @@ namespace TimeTrackingApp
             DB.CloseConnection();
         }
 
-        private Boolean DoesUserExist(string UserLogin)
+        private bool DoesUserExist(string UserLogin)
         {
             var DB = new DataBase();
 
@@ -86,7 +93,7 @@ namespace TimeTrackingApp
                 return false;
         }
 
-        private Boolean DoPasswordsMatch(string pass1, string pass2)
+        private bool DoPasswordsMatch(string pass1, string pass2)
         {
             if (pass1 != pass2)
             {
@@ -97,7 +104,7 @@ namespace TimeTrackingApp
                 return true;
         }
 
-        private Boolean IsLoginFieldEmpty()
+        private bool IsLoginFieldEmpty()
         {
             if (LoginBox.Text == _initialLoginBoxText)
             {
@@ -108,7 +115,7 @@ namespace TimeTrackingApp
                 return false;
         }
 
-        private Boolean IsPasswordFieldEmpty()
+        private bool IsPasswordFieldEmpty()
         {
             if (PassBox.Text == _initialPassBoxText)
             {
@@ -119,27 +126,69 @@ namespace TimeTrackingApp
                 return false;
         }
 
-        private Boolean PasswordValidation(string password)
+        private bool PasswordValidation(string password)
         {
-            if (password.Length >= 10 && password.All(c => !char.IsDigit(c)))
+            if (IsPasswordStrong(password))
                 return true;
             else if (password.Length < 10)
                 MessageBox.Show("Длина пароля должна быть более десяти символов", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else if (password.All(c => char.IsDigit(c)))
-                MessageBox.Show("Пароль не должен содержать цифры", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                MessageBox.Show("Пароль должен являться сочетанием букв верхнего регистра, " +
+                    "букв нижнего регистра и цифр", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             return false;
+        }
+
+        private bool IsPasswordStrong(string password)
+        {
+            bool digits = false, uppercase = false, lowercase = false;
+
+            foreach (char c in password)
+            {
+                if (char.IsDigit(c) && digits == false) digits = true;
+                else if (char.IsUpper(c) && uppercase == false) uppercase = true;
+                else if (char.IsLower(c) && lowercase == false) lowercase = true;
+            }
+
+            if (password.Length >= 10 && digits && uppercase && lowercase)
+                return true;
+            else
+                return false;
+        }
+
+        private string ConvertByteArrToHexString(byte[] arr)
+        {
+            return BitConverter.ToString(arr).Replace("-", string.Empty).ToLower();
+        }
+
+        private string GenerateSalt()
+        {
+            var rand = new Random();
+            var salt = new byte[rand.Next(10, 24)];
+
+            rand.NextBytes(salt);
+
+            return string.Concat(ConvertByteArrToHexString(salt));
+        }
+
+        private byte[] GenerateSHA256Hash(string password, string salt)
+        {
+            var saltedPassword = string.Concat(password, salt);
+            var saltedPasswordBytes = Encoding.UTF8.GetBytes(saltedPassword);
+            var sha256 = SHA256.Create();
+
+            return sha256.ComputeHash(saltedPasswordBytes);
         }
 
         private void LoginBox_Enter(object sender, EventArgs e)
         {
             if (LoginBox.Text == _initialLoginBoxText)
-                LoginBox.Text = String.Empty;
+                LoginBox.Text = string.Empty;
         }
 
         private void LoginBox_Leave(object sender, EventArgs e)
         {
-            if (LoginBox.Text == String.Empty)
+            if (LoginBox.Text == string.Empty)
                 LoginBox.Text = _initialLoginBoxText;
         }
 
@@ -147,14 +196,14 @@ namespace TimeTrackingApp
         {
             if (PassBox.Text == _initialPassBoxText)
             {
-                PassBox.Text = String.Empty;
+                PassBox.Text = string.Empty;
                 PassBox.UseSystemPasswordChar = true;
             }
         }
 
         private void PassBox_Leave(object sender, EventArgs e)
         {
-            if (PassBox.Text == String.Empty)
+            if (PassBox.Text == string.Empty)
             {
                 PassBox.Text = _initialPassBoxText;
                 PassBox.UseSystemPasswordChar = false;
@@ -165,14 +214,14 @@ namespace TimeTrackingApp
         {
             if (RepPassBox.Text == _initialRepPassBoxText)
             {
-                RepPassBox.Text = String.Empty;
+                RepPassBox.Text = string.Empty;
                 RepPassBox.UseSystemPasswordChar = true;
             }
         }
 
         private void RepPassBox_Leave(object sender, EventArgs e)
         {
-            if (RepPassBox.Text == String.Empty)
+            if (RepPassBox.Text == string.Empty)
             {
                 RepPassBox.Text = _initialRepPassBoxText;
                 RepPassBox.UseSystemPasswordChar = false;

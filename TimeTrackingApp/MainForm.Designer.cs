@@ -29,42 +29,47 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            PictureBox pictureBox1;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             timer = new System.Windows.Forms.Timer(components);
-            TimerBox = new TextBox();
             StartTimerButton = new Button();
             StopTimerButton = new Button();
             menuStrip1 = new MenuStrip();
             toolStripMenuItem1 = new ToolStripMenuItem();
-            toolStripMenuItem2 = new ToolStripMenuItem();
+            ChangeName = new ToolStripMenuItem();
+            Exit = new ToolStripMenuItem();
             dataGridView = new DataGridView();
-            bindingSource = new BindingSource(components);
             refreshButton = new Button();
             exportButton = new Button();
+            TimerLabel = new Label();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSource).BeginInit();
             SuspendLayout();
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.BackgroundImage = Properties.Resources.clock;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.ErrorImage = null;
+            pictureBox1.InitialImage = null;
+            pictureBox1.Location = new Point(534, 54);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(78, 66);
+            pictureBox1.TabIndex = 9;
+            pictureBox1.TabStop = false;
             // 
             // timer
             // 
             timer.Interval = 1000;
             timer.Tick += timer1_Tick;
             // 
-            // TimerBox
-            // 
-            TimerBox.BackColor = SystemColors.Menu;
-            TimerBox.BorderStyle = BorderStyle.None;
-            TimerBox.ForeColor = Color.Black;
-            TimerBox.Location = new Point(608, 75);
-            TimerBox.Name = "TimerBox";
-            TimerBox.ReadOnly = true;
-            TimerBox.Size = new Size(120, 20);
-            TimerBox.TabIndex = 2;
-            TimerBox.Text = "00:00:00";
-            TimerBox.TextAlign = HorizontalAlignment.Center;
-            // 
             // StartTimerButton
             // 
+            StartTimerButton.FlatStyle = FlatStyle.System;
+            StartTimerButton.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             StartTimerButton.Location = new Point(746, 71);
             StartTimerButton.Name = "StartTimerButton";
             StartTimerButton.Size = new Size(71, 29);
@@ -75,6 +80,8 @@
             // 
             // StopTimerButton
             // 
+            StopTimerButton.FlatStyle = FlatStyle.System;
+            StopTimerButton.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             StopTimerButton.Location = new Point(834, 71);
             StopTimerButton.Name = "StopTimerButton";
             StopTimerButton.Size = new Size(73, 29);
@@ -89,29 +96,38 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1 });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
+            menuStrip1.RenderMode = ToolStripRenderMode.System;
             menuStrip1.Size = new Size(944, 28);
             menuStrip1.TabIndex = 4;
             menuStrip1.Text = "menuStrip1";
             // 
             // toolStripMenuItem1
             // 
-            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
+            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { ChangeName, Exit });
+            toolStripMenuItem1.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Size = new Size(112, 24);
             toolStripMenuItem1.Text = "Мой Аккаунт";
             // 
-            // toolStripMenuItem2
+            // ChangeName
             // 
-            toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(224, 26);
-            toolStripMenuItem2.Text = "Сменить имя";
-            toolStripMenuItem2.Click += toolStripMenuItem2_Click;
+            ChangeName.Name = "ChangeName";
+            ChangeName.Size = new Size(184, 26);
+            ChangeName.Text = "Сменить имя";
+            ChangeName.Click += ChangeName_Click;
+            // 
+            // Exit
+            // 
+            Exit.Name = "Exit";
+            Exit.Size = new Size(184, 26);
+            Exit.Text = "Выйти";
+            Exit.Click += Exit_Click;
             // 
             // dataGridView
             // 
             dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridView.BorderStyle = BorderStyle.Fixed3D;
+            dataGridView.BackgroundColor = Color.DarkBlue;
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.EditMode = DataGridViewEditMode.EditOnEnter;
             dataGridView.Location = new Point(0, 160);
@@ -124,6 +140,8 @@
             // 
             // refreshButton
             // 
+            refreshButton.FlatStyle = FlatStyle.System;
+            refreshButton.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             refreshButton.Location = new Point(12, 129);
             refreshButton.Name = "refreshButton";
             refreshButton.Size = new Size(89, 25);
@@ -134,6 +152,8 @@
             // 
             // exportButton
             // 
+            exportButton.FlatStyle = FlatStyle.System;
+            exportButton.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             exportButton.Location = new Point(746, 475);
             exportButton.Name = "exportButton";
             exportButton.Size = new Size(161, 51);
@@ -142,41 +162,60 @@
             exportButton.UseVisualStyleBackColor = true;
             exportButton.Click += exportButton_Click;
             // 
+            // TimerLabel
+            // 
+            TimerLabel.AutoSize = true;
+            TimerLabel.BackColor = Color.Transparent;
+            TimerLabel.Font = new Font("Segoe UI Symbol", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            TimerLabel.ForeColor = SystemColors.Control;
+            TimerLabel.Location = new Point(633, 71);
+            TimerLabel.Name = "TimerLabel";
+            TimerLabel.Size = new Size(80, 25);
+            TimerLabel.TabIndex = 8;
+            TimerLabel.Text = "00:00:00";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.background;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(944, 538);
+            Controls.Add(pictureBox1);
+            Controls.Add(TimerLabel);
             Controls.Add(exportButton);
             Controls.Add(refreshButton);
             Controls.Add(dataGridView);
             Controls.Add(StopTimerButton);
             Controls.Add(StartTimerButton);
-            Controls.Add(TimerBox);
             Controls.Add(menuStrip1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximumSize = new Size(962, 585);
+            MinimumSize = new Size(962, 585);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TimeTrackingApp";
             Load += MainForm_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
         private System.Windows.Forms.Timer timer;
-        private TextBox TimerBox;
         private Button StartTimerButton;
         private Button StopTimerButton;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem ChangeName;
         private DataGridView dataGridView;
-        private BindingSource bindingSource;
         private Button refreshButton;
         private Button exportButton;
+        private ToolStripMenuItem Exit;
+        private Label TimerLabel;
+        private PictureBox pictureBox1;
     }
 }

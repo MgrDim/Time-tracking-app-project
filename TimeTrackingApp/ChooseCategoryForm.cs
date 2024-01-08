@@ -11,13 +11,13 @@ using System.Windows.Forms;
 
 namespace TimeTrackingApp
 {
-    public partial class ChooseCategory : Form
+    public partial class ChooseCategoryForm : Form
     {
         Category _category { get; set; }
         User _user { get; set; }
         Activity _activity { get; set; }
 
-        public ChooseCategory(Category category, User user, Activity activity)
+        public ChooseCategoryForm(Category category, User user, Activity activity)
         {
             _category = category;
             _user = user;
@@ -27,7 +27,7 @@ namespace TimeTrackingApp
 
         private void categoryNameBox_Enter(object sender, EventArgs e)
         {
-            var categories = GetCategoryNames();
+            var categories = _category.GetAllNames();
             foreach (var category in categories)
             {
                 categoryNameBox.Items.Add(category);
@@ -40,7 +40,7 @@ namespace TimeTrackingApp
 
             if (_category.Name != null)
             {
-                _category.Id = GetCategoryId(_category.Name);
+                _category.SetId();
 
                 var DB = new DataBase();
 
@@ -59,52 +59,6 @@ namespace TimeTrackingApp
 
                 Close();
             }
-        }
-
-        private List<string> GetCategoryNames()
-        {
-            var categories = new List<string>();
-            var DB = new DataBase();
-
-            var command = new NpgsqlCommand("SELECT category_name FROM categories", DB.Connection);
-
-            DB.OpenConnection();
-
-            NpgsqlDataReader reader = command.ExecuteReader();
-
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    categories.Add(reader.GetString(0));
-                }
-            }
-
-            DB.CloseConnection();
-            return categories;
-        }
-
-        private int GetCategoryId(string categoryName)
-        {
-            var DB = new DataBase();
-            int result = 0;
-
-            var command = new NpgsqlCommand("SELECT category_id FROM categories" +
-                " WHERE category_name = @categoryname", DB.Connection);
-
-            command.Parameters.Add("@categoryname", NpgsqlTypes.NpgsqlDbType.Varchar).Value = categoryName;
-
-            DB.OpenConnection();
-
-            NpgsqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows && reader.Read())
-            {
-                result = reader.GetInt32(0);
-            }
-
-            DB.CloseConnection();
-
-            return result;
         }
 
         private void ChooseCategory_FormClosing(object sender, FormClosingEventArgs e)

@@ -12,11 +12,11 @@ namespace TimeTrackingApp
     public class User
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public Activity[]? Activities { get; set; }
+        public string? Name { get; set; }
 
-        public void ChangeName()
+        public void ChangeName(string name)
         {
+            Name = name;
             var DB = new DataBase();
 
             var command = new NpgsqlCommand("UPDATE users SET user_login = @newlogin" +
@@ -37,7 +37,7 @@ namespace TimeTrackingApp
             DB.CloseConnection();
         }
 
-        public bool DoesExist()
+        public bool DoesExist(string name)
         {
             var DB = new DataBase();
 
@@ -46,7 +46,7 @@ namespace TimeTrackingApp
             var command = new NpgsqlCommand("SELECT * FROM users" +
                 " WHERE user_login = @userlogin", DB.Connection);
 
-            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = Name;
+            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = name;
 
             adapter.SelectCommand = command;
             adapter.Fill(table);
@@ -55,6 +55,25 @@ namespace TimeTrackingApp
                 return true;
             else
                 return false;
+        }
+
+        public void SetId()
+        {
+            var DB = new DataBase();
+            int userId = 0;
+
+            var command = new NpgsqlCommand("SELECT user_id FROM users" +
+            " WHERE user_login = @userlogin", DB.Connection);
+
+            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = Name;
+
+            DB.OpenConnection();
+            NpgsqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+                userId = reader.GetInt32(0);
+            DB.CloseConnection();
+
+            Id = userId;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TimeTrackingApp
 {
-    partial class ChooseCategory
+    partial class ChooseCategoryForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChooseCategoryForm));
             categoryNameBox = new ComboBox();
             chooseButton = new Button();
             label1 = new Label();
@@ -45,6 +46,8 @@
             // 
             // chooseButton
             // 
+            chooseButton.FlatStyle = FlatStyle.System;
+            chooseButton.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             chooseButton.Location = new Point(198, 191);
             chooseButton.Name = "chooseButton";
             chooseButton.Size = new Size(146, 29);
@@ -56,24 +59,31 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(18, 89);
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI Symbol", 9.5F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.ForeColor = SystemColors.Control;
+            label1.Location = new Point(3, 91);
             label1.Name = "label1";
-            label1.Size = new Size(218, 21);
+            label1.Size = new Size(233, 21);
             label1.TabIndex = 2;
             label1.Text = "Выберите категорию задачи:";
             // 
-            // ChooseCategory
+            // ChooseCategoryForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.background;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(552, 284);
             Controls.Add(label1);
             Controls.Add(chooseButton);
             Controls.Add(categoryNameBox);
-            Name = "ChooseCategory";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximumSize = new Size(570, 331);
+            MinimumSize = new Size(570, 331);
+            Name = "ChooseCategoryForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ChooseCategory";
+            Text = "TimeTrackingApp";
             FormClosing += ChooseCategory_FormClosing;
             ResumeLayout(false);
             PerformLayout();

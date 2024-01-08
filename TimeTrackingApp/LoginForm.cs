@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,11 +16,12 @@ namespace TimeTrackingApp
     {
         int _numberOfAttempts = 5;
         string _initialLoginBoxText = "Пользователь";
-        string _initialPassBoxText = "********";
-        public User User = new();
+        string _initialPassBoxText = "*************";
+        public User User { get; set; }
 
-        public LoginForm()
+        public LoginForm(User user)
         {
+            User = user;
             InitializeComponent();
         }
 
@@ -31,35 +33,55 @@ namespace TimeTrackingApp
 
         private void AuthButton_Click(object sender, EventArgs e)
         {
-            string login = LoginBox.Text;
-            string password = PassBox.Text;
+            User.Name = LoginBox.Text;
+            var enteredPassword = PassBox.Text;
+
+            if (!User.DoesExist(User.Name))
+            {
+                MessageBox.Show("Пользователя с таким именем не существует",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoginFail();
+                return;
+            }
 
             var DB = new DataBase();
 
-            var adapter = new NpgsqlDataAdapter();
-            var table = new DataTable();
-            var command = new NpgsqlCommand("SELECT * FROM users" +
-                " WHERE user_login = @userlogin AND user_password = @userpass", DB.Connection);
+            var command = new NpgsqlCommand("SELECT user_password FROM users" +
+                " WHERE user_login = @userlogin", DB.Connection);
 
-            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = login;
-            command.Parameters.Add("@userpass", NpgsqlTypes.NpgsqlDbType.Varchar).Value = password;
+            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = User.Name;
 
-            adapter.SelectCommand = command;
-            adapter.Fill(table);
+            DB.OpenConnection();
 
-            if (table.Rows.Count > 0)
+            NpgsqlDataReader reader = command.ExecuteReader();
+            reader.Read();
+            var dbData = reader.GetString(0).Split("$");
+
+            DB.CloseConnection();
+
+            var passwordHash = dbData[0];
+            var salt = dbData[1];
+
+            if (CheckPassword(enteredPassword, salt, passwordHash))
                 DialogResult = DialogResult.OK;
             else
             {
-                _numberOfAttempts -= 1;
-                MessageBox.Show("Неправильный логин или пароль", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                WarnBox.ForeColor = Color.Red;
-                WarnBox.Text = $"Осталось попыток {_numberOfAttempts}";
+                LoginFail();
+                MessageBox.Show("Неверный пароль", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
             if (_numberOfAttempts == 0)
                 DialogResult = DialogResult.Cancel;
+        }
+
+        private void LoginFail()
+        {
+            LoginBox.Text = _initialLoginBoxText;
+            PassBox.Text = _initialPassBoxText;
+            PassBox.UseSystemPasswordChar = false;
+            _numberOfAttempts -= 1;
+            WarnMessage.Text = $"Осталось попыток {_numberOfAttempts}";
         }
 
         private void RegisterButton_Click(object sender, EventArgs e)
@@ -72,12 +94,12 @@ namespace TimeTrackingApp
         private void LoginBox_Enter(object sender, EventArgs e)
         {
             if (LoginBox.Text == _initialLoginBoxText)
-                LoginBox.Text = String.Empty;
+                LoginBox.Text = string.Empty;
         }
 
         private void LoginBox_Leave(object sender, EventArgs e)
         {
-            if (LoginBox.Text == String.Empty)
+            if (LoginBox.Text == string.Empty)
                 LoginBox.Text = _initialLoginBoxText;
         }
 
@@ -85,7 +107,7 @@ namespace TimeTrackingApp
         {
             if (PassBox.Text == _initialPassBoxText)
             {
-                PassBox.Text = String.Empty;
+                PassBox.Text = string.Empty;
                 PassBox.UseSystemPasswordChar = true;
             }
 
@@ -93,7 +115,7 @@ namespace TimeTrackingApp
 
         private void PassBox_Leave(object sender, EventArgs e)
         {
-            if (PassBox.Text == String.Empty)
+            if (PassBox.Text == string.Empty)
             {
                 PassBox.Text = _initialPassBoxText;
                 PassBox.UseSystemPasswordChar = false;
@@ -102,27 +124,27 @@ namespace TimeTrackingApp
 
         private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            User.Name = LoginBox.Text;
-            User.Id = GetUserId(LoginBox.Text);
+            if (User.Name != null)
+                User.SetId();
         }
 
-        private int GetUserId(string username)
+        private static byte[] GenerateSHA256Hash(string password, string salt)
         {
-            var DB = new DataBase();
-            int result = 0;
+            var saltedPassword = string.Concat(password, salt);
+            var saltedPasswordBytes = Encoding.UTF8.GetBytes(saltedPassword);
+            var sha256 = SHA256.Create();
 
-            var command = new NpgsqlCommand("SELECT user_id FROM users" +
-                " WHERE user_login = @userlogin", DB.Connection);
+            return sha256.ComputeHash(saltedPasswordBytes);
+        }
 
-            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = username;
-
-            DB.OpenConnection();
-            NpgsqlDataReader reader = command.ExecuteReader();
-            if (reader.Read())
-                result = reader.GetInt32(0);
-            DB.CloseConnection();
-
-            return result;
+        private static bool CheckPassword(string enteredPassword, string salt, string passwordHash)
+        {
+            var enteredPasswordHash = GenerateSHA256Hash(enteredPassword, salt);
+            var hashInString = BitConverter.ToString(enteredPasswordHash).Replace("-", String.Empty).ToLower();
+            if (hashInString.SequenceEqual(passwordHash))
+                return true;
+            else
+                return false;
         }
     }
 }

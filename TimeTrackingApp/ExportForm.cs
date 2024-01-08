@@ -32,8 +32,8 @@ namespace TimeTrackingApp
             if (IsFileNameBoxEmpty()) return;
             if (AreDateBoxesEmpty()) return;
 
-            var workbook = CreateWorkbook();
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{fileNameBox.Text}.xlsx");
+            var workbook = CreateWorkbook();
 
             try
             {
@@ -54,7 +54,7 @@ namespace TimeTrackingApp
 
             var workbook = new Workbook();
             var worksheet = workbook.Worksheets[0];
-            worksheet.Name = "1";
+            worksheet.Name = "Отчет";
             var datatable = GetData(startdate, enddate);
             var tableoptions = new ImportTableOptions { IsFieldNameShown = true };
 
@@ -93,7 +93,7 @@ namespace TimeTrackingApp
 
         private bool IsFileNameBoxEmpty()
         {
-            if (fileNameBox.Text == String.Empty)
+            if (fileNameBox.Text == string.Empty)
             {
                 MessageBox.Show("Введите имя файла", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
@@ -104,7 +104,7 @@ namespace TimeTrackingApp
 
         private bool AreDateBoxesEmpty()
         {
-            if (firstDateBox.Text == String.Empty && secondDateBox.Text == String.Empty)
+            if (firstDateBox.Text == string.Empty && secondDateBox.Text == string.Empty)
             {
                 MessageBox.Show("Временной промежуток не указан", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;

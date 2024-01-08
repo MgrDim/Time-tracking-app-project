@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangeNameForm));
             NewLoginBox = new TextBox();
             ChangeLoginButton = new Button();
             SuspendLayout();
             // 
             // NewLoginBox
             // 
+            NewLoginBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             NewLoginBox.Location = new Point(132, 60);
             NewLoginBox.Name = "NewLoginBox";
             NewLoginBox.Size = new Size(268, 27);
@@ -41,6 +43,8 @@
             // 
             // ChangeLoginButton
             // 
+            ChangeLoginButton.FlatStyle = FlatStyle.System;
+            ChangeLoginButton.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             ChangeLoginButton.Location = new Point(193, 105);
             ChangeLoginButton.Name = "ChangeLoginButton";
             ChangeLoginButton.Size = new Size(138, 29);
@@ -53,12 +57,17 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.background;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(525, 178);
             Controls.Add(ChangeLoginButton);
             Controls.Add(NewLoginBox);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximumSize = new Size(543, 225);
+            MinimumSize = new Size(543, 225);
             Name = "ChangeNameForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ChangeNameForm";
+            Text = "TimeTrackingApp";
             ResumeLayout(false);
             PerformLayout();
         }

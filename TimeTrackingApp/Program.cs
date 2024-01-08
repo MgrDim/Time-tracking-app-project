@@ -6,7 +6,7 @@ namespace TimeTrackingApp
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            var loginForm = new LoginForm();
+            var loginForm = new LoginForm(new User());
             loginForm.ShowDialog();
             if (loginForm.DialogResult == DialogResult.OK)
             {

@@ -6,7 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>bin\Debug\net7.0-windows\icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net7.0-windows\icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspose.Cells" Version="23.12.0" />

@@ -18,7 +18,7 @@ namespace TimeTrackingApp
     public partial class MainForm : Form
     {
         int _ticks;
-        public User User = new();
+        public User User { get; set; }
         public Category Category = new();
         public Activity Activity = new();
 
@@ -33,7 +33,7 @@ namespace TimeTrackingApp
             if (timer.Enabled == false)
             {
                 _ticks = 0;
-                TimerBox.Text = "00:00:00";
+                TimerLabel.Text = "00:00:00";
                 Activity.Start = DateTime.Now;
                 var nameActivityForm = new NameActivityForm(Activity);
                 nameActivityForm.Show();
@@ -47,7 +47,7 @@ namespace TimeTrackingApp
             Activity.End = Activity.Start;
             Activity.End = Activity.End.AddSeconds(_ticks);
             var difference = Activity.End.TimeOfDay - Activity.Start.TimeOfDay;
-            TimerBox.Text = String.Format("{0:00}:{1:00}:{2:00}", difference.Hours, difference.Minutes, difference.Seconds);
+            TimerLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", difference.Hours, difference.Minutes, difference.Seconds);
         }
 
         private void StopTimerButton_Click(object sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace TimeTrackingApp
 
                 DB.CloseConnection();
 
-                var chooseCategory = new ChooseCategory(Category, User, Activity);
+                var chooseCategory = new ChooseCategoryForm(Category, User, Activity);
                 chooseCategory.ShowDialog();
             }
         }
@@ -83,9 +83,8 @@ namespace TimeTrackingApp
 
         private void InitializeDataGridView()
         {
-
             dataGridView.DataSource = GetActivitiesInfo();
-
+            dataGridView.AllowUserToAddRows = false;
         }
 
         private DataTable GetActivitiesInfo()
@@ -111,12 +110,6 @@ namespace TimeTrackingApp
             return table;
         }
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            var changeNameForm = new ChangeNameForm(User);
-            changeNameForm.ShowDialog();
-        }
-
         private void refreshButton_Click(object sender, EventArgs e)
         {
             InitializeDataGridView();
@@ -126,6 +119,20 @@ namespace TimeTrackingApp
         {
             var exportForm = new ExportForm(User);
             exportForm.ShowDialog();
+        }
+
+        private void ChangeName_Click(object sender, EventArgs e)
+        {
+            var changeNameForm = new ChangeNameForm(User);
+            changeNameForm.ShowDialog();
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            var loginForm = new LoginForm(User);
+            loginForm.ShowDialog();
+            InitializeDataGridView();
+            TimerLabel.Text = "00:00:00";
         }
     }
 }

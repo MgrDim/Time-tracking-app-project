@@ -4,7 +4,7 @@
     <Compile Update="ChangeNameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ChooseCategory.cs">
+    <Compile Update="ChooseCategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="ExportForm.cs">
