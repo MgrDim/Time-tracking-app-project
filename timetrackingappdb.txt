@@ -1,0 +1,109 @@
+CREATE TABLE Users (
+    user_id SERIAL NOT NULL,
+    user_login VARCHAR(255) NOT NULL,
+    user_password VARCHAR(255) NOT NULL,
+	CONSTRAINT user_pk PRIMARY KEY (user_id)
+);
+
+CREATE TABLE Categories (
+    category_id SERIAL NOT NULL,
+    category_name VARCHAR(255) NOT NULL,
+	CONSTRAINT category_pk PRIMARY KEY (category_id)
+);
+
+CREATE TABLE Activities (
+    activity_id SERIAL NOT NULL,
+    activity_name VARCHAR(255) NOT NULL,
+    activity_status VARCHAR(50) NOT NULL,
+	category_id SMALLINT, 
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP,
+	CONSTRAINT activity_pk PRIMARY KEY (activity_id)
+);
+
+ALTER TABLE Activities ADD CONSTRAINT activity_fk0 FOREIGN KEY (category_id) REFERENCES Categories(category_id);
+
+CREATE TABLE Users_Activities (
+	user_id SMALLINT NOT NULL,
+	activity_id SMALLINT NOT NULL,
+	CONSTRAINT user_activity_pk PRIMARY KEY (user_id, activity_id)
+);
+
+CREATE TABLE Users_Categories (
+	user_id SMALLINT NOT NULL,
+	category_id SMALLINT NOT NULL,
+	CONSTRAINT user_category_pk PRIMARY KEY (user_id, category_id)
+);
+
+ALTER TABLE Users_Activities ADD CONSTRAINT user_activity_fk0 FOREIGN KEY (user_id) REFERENCES Users(user_id);
+ALTER TABLE Users_Activities ADD CONSTRAINT user_activity_fk1 FOREIGN KEY (activity_id) REFERENCES Activities(activity_id);
+
+ALTER TABLE Users_Categories ADD CONSTRAINT user_category_fk0 FOREIGN KEY (user_id) REFERENCES Users(user_id);
+ALTER TABLE Users_Categories ADD CONSTRAINT user_category_fk1 FOREIGN KEY (category_id) REFERENCES Categories(category_id);
+
+CREATE PROCEDURE insert_activities(activityname varchar(255), date_time timestamp)
+LANGUAGE SQL
+AS $$
+	INSERT INTO activities(activity_name, activity_status, start_time)
+		VALUES(activityname, 'В процессе', date_trunc('sec', date_time));
+$$;
+
+CREATE PROCEDURE update_activities(activityid int, date_time timestamp)
+LANGUAGE SQL
+AS $$
+	UPDATE activities SET activity_status = 'Завершено',
+	end_time = date_trunc('sec', date_time) WHERE activity_id = activityid
+$$;
+
+CREATE PROCEDURE insert_users_activities(user_id int, activity_id int)
+LANGUAGE SQL
+AS $$
+	INSERT INTO users_activities VALUES(user_id, activity_id);
+$$;
+
+CREATE PROCEDURE add_category_id(categoryid int, activityid int)
+LANGUAGE SQL
+AS $$
+	UPDATE activities SET category_id = categoryid
+	WHERE activity_id = activityid
+$$;
+
+CREATE PROCEDURE insert_users_categories(userid int, categoryid int)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+	IF (SELECT category_id FROM users_categories WHERE user_id = userid and category_id = categoryid) IS NULL THEN
+		INSERT INTO users_categories VALUES (userid, categoryid);
+	END IF;
+END;
+$$;
+
+CREATE FUNCTION get_activities_info(userid int)
+RETURNS TABLE (
+	activity_name varchar(255),
+	category_name varchar(255),
+	working_time interval
+)
+AS $$
+	SELECT a.activity_name, c.category_name, (a.end_time - a.start_time) as working_time
+	FROM users u INNER JOIN users_activities ua ON u.user_id = ua.user_id
+	INNER JOIN activities a ON ua.activity_id = a.activity_id
+	INNER JOIN categories c ON a.category_id = c.category_id
+	WHERE u.user_id = userid;
+$$
+LANGUAGE SQL;
+
+CREATE FUNCTION get_activities_info_for_export(userid int, startdate date, enddate date)
+RETURNS TABLE (
+	activity_name varchar(255),
+	category_name varchar(255),
+	working_time interval
+)
+AS $$
+	SELECT a.activity_name, c.category_name, (a.end_time - a.start_time) as working_time
+	FROM users u INNER JOIN users_activities ua ON u.user_id = ua.user_id
+	INNER JOIN activities a ON ua.activity_id = a.activity_id
+	INNER JOIN categories c ON a.category_id = c.category_id
+	WHERE u.user_id = userid AND a.end_time::date >= startdate AND a.end_time::date <= enddate;
+$$
+LANGUAGE SQL;
