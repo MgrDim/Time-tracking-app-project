@@ -23,7 +23,7 @@ C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\obj\Debug\net7.0-win
 C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\obj\Debug\net7.0-windows\TimeTrackingApp.csproj.CopyComplete
 C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\obj\Debug\net7.0-windows\TimeTrackingApp.NameActivityForm.resources
 C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\obj\Debug\net7.0-windows\TimeTrackingApp.Properties.Resources.resources
-C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\obj\Debug\net7.0-windows\TimeTrackingApp.ChangeNameForm.resources
 C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\bin\Debug\net7.0-windows\Aspose.Cells.dll
 C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\obj\Debug\net7.0-windows\TimeTrackingApp.ExportForm.resources
 C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\obj\Debug\net7.0-windows\TimeTrackingApp.ChooseCategoryForm.resources
+C:\Users\jenya\source\repos\TimeTrackingApp\TimeTrackingApp\obj\Debug\net7.0-windows\TimeTrackingApp.ChangeLoginForm.resources

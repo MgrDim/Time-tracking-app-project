@@ -1,6 +1,6 @@
 ﻿namespace TimeTrackingApp
 {
-    partial class ChangeNameForm
+    partial class ChangeLoginForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangeNameForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangeLoginForm));
             NewLoginBox = new TextBox();
             ChangeLoginButton = new Button();
             SuspendLayout();

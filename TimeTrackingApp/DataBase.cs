@@ -9,9 +9,24 @@ namespace TimeTrackingApp
 {
     public class DataBase
     {
-        NpgsqlConnection _connection = new NpgsqlConnection("Host=localhost;Username=postgres;Password=123;Database=timetrackingapp");
+        NpgsqlConnection _connection = new NpgsqlConnection("Host=78.153.5.230;Port=8595;Username=dbekbulatov;Password=XNSQTXcGHk;Database=timetrackingapp");
         
         public NpgsqlConnection Connection { get { return _connection; } }
+
+        public bool ConnectionCheck()
+        {
+            try
+            {
+                _connection.Open();
+            }
+            catch
+            {
+                MessageBox.Show("Произошла ошибка при соединении с сервером", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            _connection.Close();
+            return true;
+        }
 
         public void OpenConnection()
         {
@@ -21,7 +36,7 @@ namespace TimeTrackingApp
             }
             catch
             {
-                MessageBox.Show("Произошла ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка при соединении с сервером", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -33,23 +48,8 @@ namespace TimeTrackingApp
             }
             catch
             {
-                MessageBox.Show("Произошла ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Произошла ошибка при соединении с сервером", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        public bool ConnectionCheck()
-        {
-            try
-            {
-                _connection.Open();
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            _connection.Close();
-            return true;
         }
     }
 }

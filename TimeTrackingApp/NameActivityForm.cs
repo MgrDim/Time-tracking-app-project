@@ -13,25 +13,25 @@ namespace TimeTrackingApp
 {
     public partial class NameActivityForm : Form
     {
-        Activity _activity { get; set; }
-        public NameActivityForm(Activity activity)
+        public Activities Activity { get; set; }
+        public NameActivityForm(Activities activity)
         {
-            _activity = activity;
+            Activity = activity;
             InitializeComponent();
         }
 
         private void ChooseButton_Click(object sender, EventArgs e)
         {
-            _activity.Name = ActivityNameBox.Text;
+            Activity.Start = DateTime.Now;
+            Activity.Name = ActivityNameBox.Text;
 
-            if (_activity.Name != null || _activity.Name != string.Empty)
+            if (Activity.Name != null || Activity.Name != string.Empty)
             {
                 var DB = new DataBase();
-
                 var command = new NpgsqlCommand("CALL insert_activities(@activityname, @datetime)", DB.Connection);
 
-                command.Parameters.Add("@activityname", NpgsqlTypes.NpgsqlDbType.Varchar).Value = _activity.Name;
-                command.Parameters.Add("@datetime", NpgsqlTypes.NpgsqlDbType.Timestamp).Value = _activity.Start;
+                command.Parameters.Add("@activityname", NpgsqlTypes.NpgsqlDbType.Varchar).Value = Activity.Name;
+                command.Parameters.Add("@datetime", NpgsqlTypes.NpgsqlDbType.Timestamp).Value = Activity.Start;
 
                 DB.OpenConnection();
 
@@ -39,7 +39,7 @@ namespace TimeTrackingApp
 
                 DB.CloseConnection();
 
-                _activity.SetId();
+                Activity.SetId();
                 Close();
             }
             else
@@ -48,7 +48,7 @@ namespace TimeTrackingApp
 
         private void NameActivityForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_activity.Name == null)
+            if (Activity.Name == null)
             {
                 MessageBox.Show("Введите название задачи", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;

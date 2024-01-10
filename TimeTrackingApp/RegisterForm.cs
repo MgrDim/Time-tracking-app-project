@@ -17,6 +17,7 @@ namespace TimeTrackingApp
         string _initialLoginBoxText = "Введите логин";
         string _initialPassBoxText = "Придумайте пароль";
         string _initialRepPassBoxText = "Повторите введенный пароль";
+        public Users User = new ();
 
         public RegisterForm()
         {
@@ -35,26 +36,27 @@ namespace TimeTrackingApp
             if (IsLoginFieldEmpty()) return;
             if (IsPasswordFieldEmpty()) return;
 
-            var login = LoginBox.Text;
+            User.Login = LoginBox.Text;
             var password = PassBox.Text;
             var repPassword = RepPassBox.Text;
 
             if (!PasswordValidation(PassBox.Text)) return;
             if (!DoPasswordsMatch(password, repPassword)) return;
-            if (DoesUserExist(login)) return;
+            if (User.DoesExist(User.Login))
+            {
+                MessageBox.Show("Пользователь с данным логином уже существует", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            //
             var salt = GenerateSalt();
             var hashedPassword = GenerateSHA256Hash(password, salt);
             var passwordInDB = $"{ConvertByteArrToHexString(hashedPassword)}${salt}";
-            //
 
             var DB = new DataBase();
-
             var command = new NpgsqlCommand("INSERT INTO users(user_login, user_password)" +
                 " VALUES (@userlogin, @userpass)", DB.Connection);
 
-            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = login;
+            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = User.Login;
             command.Parameters.Add("@userpass", NpgsqlTypes.NpgsqlDbType.Varchar).Value = passwordInDB;
 
             DB.OpenConnection();
@@ -68,29 +70,6 @@ namespace TimeTrackingApp
                 MessageBox.Show("Аккаунт не был создан", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             DB.CloseConnection();
-        }
-
-        private bool DoesUserExist(string UserLogin)
-        {
-            var DB = new DataBase();
-
-            var table = new DataTable();
-            var adapter = new NpgsqlDataAdapter();
-            var command = new NpgsqlCommand("SELECT * FROM users" +
-                " WHERE user_login = @userlogin", DB.Connection);
-
-            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = UserLogin;
-
-            adapter.SelectCommand = command;
-            adapter.Fill(table);
-
-            if (table.Rows.Count > 0)
-            {
-                MessageBox.Show("Пользователь с данным логином существует", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return true;
-            }
-            else
-                return false;
         }
 
         private bool DoPasswordsMatch(string pass1, string pass2)

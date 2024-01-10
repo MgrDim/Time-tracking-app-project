@@ -18,11 +18,11 @@ namespace TimeTrackingApp
     public partial class MainForm : Form
     {
         int _ticks;
-        public User User { get; set; }
-        public Category Category = new();
-        public Activity Activity = new();
+        public Users User { get; set; }
+        public Categories Category = new();
+        public Activities Activity = new();
 
-        public MainForm(User user)
+        public MainForm(Users user)
         {
             User = user;
             InitializeComponent();
@@ -34,9 +34,8 @@ namespace TimeTrackingApp
             {
                 _ticks = 0;
                 TimerLabel.Text = "00:00:00";
-                Activity.Start = DateTime.Now;
                 var nameActivityForm = new NameActivityForm(Activity);
-                nameActivityForm.Show();
+                nameActivityForm.ShowDialog();
             }
             timer.Start();
         }
@@ -57,6 +56,7 @@ namespace TimeTrackingApp
                 timer.Stop();
 
                 var DB = new DataBase();
+                if (!DB.ConnectionCheck()) return;
 
                 var command = new NpgsqlCommand("CALL update_activities(@activityid, @datetime); " +
                     "CALL insert_users_activities(@userid, @activityid)", DB.Connection);
@@ -121,9 +121,9 @@ namespace TimeTrackingApp
             exportForm.ShowDialog();
         }
 
-        private void ChangeName_Click(object sender, EventArgs e)
+        private void ChangeLogin_Click(object sender, EventArgs e)
         {
-            var changeNameForm = new ChangeNameForm(User);
+            var changeNameForm = new ChangeLoginForm(User);
             changeNameForm.ShowDialog();
         }
 

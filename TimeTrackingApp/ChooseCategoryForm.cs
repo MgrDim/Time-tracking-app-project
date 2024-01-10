@@ -13,21 +13,21 @@ namespace TimeTrackingApp
 {
     public partial class ChooseCategoryForm : Form
     {
-        Category _category { get; set; }
-        User _user { get; set; }
-        Activity _activity { get; set; }
+        public Categories Category { get; set; }
+        public Users User { get; set; }
+        public Activities Activity { get; set; }
 
-        public ChooseCategoryForm(Category category, User user, Activity activity)
+        public ChooseCategoryForm(Categories category, Users user, Activities activity)
         {
-            _category = category;
-            _user = user;
-            _activity = activity;
+            Category = category;
+            User = user;
+            Activity = activity;
             InitializeComponent();
         }
 
         private void ChooseCategoryForm_Load(object sender, EventArgs e)
         {
-            var categories = _category.GetAllNames();
+            var categories = Category.GetAllNames();
             foreach (var category in categories)
             {
                 categoryBox.Items.Add(category);
@@ -36,20 +36,19 @@ namespace TimeTrackingApp
 
         private void chooseButton_Click(object sender, EventArgs e)
         {
-            _category.Name = categoryBox.Text;
+            Category.Name = categoryBox.Text;
 
-            if (_category.Name != null)
+            if (Category.Name != null)
             {
-                _category.SetId();
+                Category.SetId();
 
                 var DB = new DataBase();
-
                 var command = new NpgsqlCommand("CALL add_category_id(@categoryid, @activityid); " +
                     "CALL insert_users_categories(@userid, @categoryid)", DB.Connection);
 
-                command.Parameters.Add("@categoryid", NpgsqlTypes.NpgsqlDbType.Integer).Value = _category.Id;
-                command.Parameters.Add("@userid", NpgsqlTypes.NpgsqlDbType.Integer).Value = _user.Id;
-                command.Parameters.Add("@activityid", NpgsqlTypes.NpgsqlDbType.Integer).Value = _activity.Id;
+                command.Parameters.Add("@categoryid", NpgsqlTypes.NpgsqlDbType.Integer).Value = Category.Id;
+                command.Parameters.Add("@userid", NpgsqlTypes.NpgsqlDbType.Integer).Value = User.Id;
+                command.Parameters.Add("@activityid", NpgsqlTypes.NpgsqlDbType.Integer).Value = Activity.Id;
 
                 DB.OpenConnection();
 
@@ -63,7 +62,7 @@ namespace TimeTrackingApp
 
         private void ChooseCategory_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_category.Name == null)
+            if (Category.Name == null)
             {
                 MessageBox.Show("Выберите категорию", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;

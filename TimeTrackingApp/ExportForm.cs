@@ -14,10 +14,10 @@ namespace TimeTrackingApp
 {
     public partial class ExportForm : Form
     {
-        User _user { get; set; }
-        public ExportForm(User user)
+        public Users User { get; set; }
+        public ExportForm(Users user)
         {
-            _user = user;
+            User = user;
             InitializeComponent();
         }
 
@@ -30,6 +30,7 @@ namespace TimeTrackingApp
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (IsFileNameBoxEmpty()) return;
+            if (!IsFileNameValid(fileNameBox.Text)) return;
             if (AreDateBoxesEmpty()) return;
 
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{fileNameBox.Text}.xlsx");
@@ -89,6 +90,7 @@ namespace TimeTrackingApp
 
             return workbook;
         }
+
         private DataTable GetData(DateOnly startdate, DateOnly enddate)
         {
             var table = new DataTable();
@@ -99,7 +101,7 @@ namespace TimeTrackingApp
             var command = new NpgsqlCommand("SELECT * FROM " +
                 "get_activities_info_for_export(@userid, @startdate, @enddate)", DB.Connection);
 
-            command.Parameters.Add("@userid", NpgsqlTypes.NpgsqlDbType.Integer).Value = _user.Id;
+            command.Parameters.Add("@userid", NpgsqlTypes.NpgsqlDbType.Integer).Value = User.Id;
             command.Parameters.Add("@startdate", NpgsqlTypes.NpgsqlDbType.Date).Value = startdate;
             command.Parameters.Add("@enddate", NpgsqlTypes.NpgsqlDbType.Date).Value = enddate;
 
@@ -134,6 +136,33 @@ namespace TimeTrackingApp
             }
             else
                 return false;
+        }
+
+        private bool IsFileNameValid(string filename)
+        {
+            string[] illegalFileNames = { "CON", "PRN", "AUX", "NUL", "COM0", "COM1", "COM2", "COM3", "COM4", "COM5", 
+            "COM5", "COM6", "COM7", "COM8", "COM9", "COMSCSI", "LPT0", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6",
+            "LPT7", "LPT8", "LPT9", "LPTSCSI"};
+
+            foreach (var chr in Path.GetInvalidFileNameChars())
+            {
+                if (filename.Contains(chr))
+                {
+                    MessageBox.Show($"Имя файла содержит запрещенные символы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+            foreach (var fname in illegalFileNames)
+            {
+                if (filename == fname)
+                {
+                    MessageBox.Show($"Недопустимое имя файла", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

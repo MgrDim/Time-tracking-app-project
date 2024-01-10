@@ -17,9 +17,9 @@ namespace TimeTrackingApp
         int _numberOfAttempts = 5;
         string _initialLoginBoxText = "Пользователь";
         string _initialPassBoxText = "*************";
-        public User User { get; set; }
+        public Users User { get; set; }
 
-        public LoginForm(User user)
+        public LoginForm(Users user)
         {
             User = user;
             InitializeComponent();
@@ -33,13 +33,10 @@ namespace TimeTrackingApp
 
         private void AuthButton_Click(object sender, EventArgs e)
         {
-            var DB = new DataBase();
-            if (!DB.ConnectionCheck()) return;
-
-            User.Name = LoginBox.Text;
+            User.Login = LoginBox.Text;
             var enteredPassword = PassBox.Text;
 
-            if (!User.DoesExist(User.Name))
+            if (!User.DoesExist(User.Login))
             {
                 MessageBox.Show("Пользователя с таким именем не существует",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -47,10 +44,11 @@ namespace TimeTrackingApp
                 return;
             }
 
+            var DB = new DataBase();
             var command = new NpgsqlCommand("SELECT user_password FROM users" +
                 " WHERE user_login = @userlogin", DB.Connection);
 
-            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = User.Name;
+            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = User.Login;
 
             DB.OpenConnection();
 
@@ -125,7 +123,7 @@ namespace TimeTrackingApp
 
         private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (User.Name != null)
+            if (User.Login != null)
                 User.SetId();
         }
 

@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace TimeTrackingApp
 {
-    public class User
+    public class Users
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public string? Login { get; set; }
 
         public void ChangeName(string name)
         {
-            Name = name;
+            Login = name;
             var DB = new DataBase();
 
             var command = new NpgsqlCommand("UPDATE users SET user_login = @newlogin" +
             " WHERE user_id = @userid", DB.Connection);
 
             command.Parameters.Add("@userid", NpgsqlTypes.NpgsqlDbType.Integer).Value = Id;
-            command.Parameters.Add("@newlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = Name;
+            command.Parameters.Add("@newlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = Login;
 
             DB.OpenConnection();
 
@@ -46,10 +46,14 @@ namespace TimeTrackingApp
             var command = new NpgsqlCommand("SELECT * FROM users" +
                 " WHERE user_login = @userlogin", DB.Connection);
 
+            DB.OpenConnection();
+
             command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = name;
 
             adapter.SelectCommand = command;
             adapter.Fill(table);
+
+            DB.CloseConnection();
 
             if (table.Rows.Count > 0)
                 return true;
@@ -65,7 +69,7 @@ namespace TimeTrackingApp
             var command = new NpgsqlCommand("SELECT user_id FROM users" +
             " WHERE user_login = @userlogin", DB.Connection);
 
-            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = Name;
+            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = Login;
 
             DB.OpenConnection();
             NpgsqlDataReader reader = command.ExecuteReader();

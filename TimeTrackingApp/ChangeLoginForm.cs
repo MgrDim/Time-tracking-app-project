@@ -12,15 +12,15 @@ using System.Windows.Forms;
 
 namespace TimeTrackingApp
 {
-    public partial class ChangeNameForm : Form
+    public partial class ChangeLoginForm : Form
     {
 
         string _initialNewLoginBoxText = "Введите новое имя пользователя";
-        User _user { get; set; }
+        public Users User { get; set; }
 
-        public ChangeNameForm(User user)
+        public ChangeLoginForm(Users user)
         {
-            _user = user;
+            User = user;
             InitializeComponent();
         }
 
@@ -31,13 +31,13 @@ namespace TimeTrackingApp
 
         private void ChangeLoginButton_Click(object sender, EventArgs e)
         {
-            if (_user.DoesExist(NewLoginBox.Text))
+            if (User.DoesExist(NewLoginBox.Text))
             {
                 MessageBox.Show("Пользователь с данным логином существует", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            _user.ChangeName(NewLoginBox.Text);
+            User.ChangeName(NewLoginBox.Text);
 
             Close();
         }

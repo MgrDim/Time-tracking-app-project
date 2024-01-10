@@ -36,7 +36,7 @@
             StopTimerButton = new Button();
             menuStrip1 = new MenuStrip();
             toolStripMenuItem1 = new ToolStripMenuItem();
-            ChangeName = new ToolStripMenuItem();
+            ChangeLogin = new ToolStripMenuItem();
             Exit = new ToolStripMenuItem();
             dataGridView = new DataGridView();
             refreshButton = new Button();
@@ -102,23 +102,23 @@
             // 
             // toolStripMenuItem1
             // 
-            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { ChangeName, Exit });
+            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { ChangeLogin, Exit });
             toolStripMenuItem1.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Size = new Size(112, 24);
             toolStripMenuItem1.Text = "Мой Аккаунт";
             // 
-            // ChangeName
+            // ChangeLogin
             // 
-            ChangeName.Name = "ChangeName";
-            ChangeName.Size = new Size(224, 26);
-            ChangeName.Text = "Сменить имя";
-            ChangeName.Click += ChangeName_Click;
+            ChangeLogin.Name = "ChangeLogin";
+            ChangeLogin.Size = new Size(197, 26);
+            ChangeLogin.Text = "Сменить логин";
+            ChangeLogin.Click += ChangeLogin_Click;
             // 
             // Exit
             // 
             Exit.Name = "Exit";
-            Exit.Size = new Size(224, 26);
+            Exit.Size = new Size(197, 26);
             Exit.Text = "Выйти";
             Exit.Click += Exit_Click;
             // 
@@ -209,7 +209,7 @@
         private Button StopTimerButton;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem ChangeName;
+        private ToolStripMenuItem ChangeLogin;
         private DataGridView dataGridView;
         private Button refreshButton;
         private Button exportButton;
