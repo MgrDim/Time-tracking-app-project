@@ -43,6 +43,7 @@
             // 
             fileNameBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             fileNameBox.Location = new Point(142, 71);
+            fileNameBox.MaxLength = 200;
             fileNameBox.Name = "fileNameBox";
             fileNameBox.Size = new Size(269, 27);
             fileNameBox.TabIndex = 1;
