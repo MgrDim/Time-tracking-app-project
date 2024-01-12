@@ -33,10 +33,10 @@ namespace TimeTrackingApp
 
         private void AuthButton_Click(object sender, EventArgs e)
         {
-            User.Login = LoginBox.Text;
+            var login = LoginBox.Text;
             var enteredPassword = PassBox.Text;
 
-            if (!User.DoesExist(User.Login))
+            if (!User.DoesExist(login))
             {
                 MessageBox.Show("Пользователя с таким именем не существует",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -48,7 +48,7 @@ namespace TimeTrackingApp
             var command = new NpgsqlCommand("SELECT user_password FROM users" +
                 " WHERE user_login = @userlogin", DB.Connection);
 
-            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = User.Login;
+            command.Parameters.Add("@userlogin", NpgsqlTypes.NpgsqlDbType.Varchar).Value = login;
 
             DB.OpenConnection();
 
@@ -62,7 +62,10 @@ namespace TimeTrackingApp
             var salt = dbData[1];
 
             if (CheckPassword(enteredPassword, salt, passwordHash))
+            {
+                User.Login = login;
                 DialogResult = DialogResult.OK;
+            }
             else
             {
                 LoginFail();
@@ -144,6 +147,23 @@ namespace TimeTrackingApp
                 return true;
             else
                 return false;
+        }
+
+        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Owner != null && e.CloseReason == CloseReason.UserClosing)
+            {
+                var dialogResult = MessageBox.Show("Вы точно хотите выйти из приложения?", "Сообщение",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Owner = null;
+                    Application.Exit();
+                }
+                else
+                    e.Cancel = true;
+            }
         }
     }
 }

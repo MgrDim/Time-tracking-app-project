@@ -141,6 +141,7 @@
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TimeTrackingApp";
+            FormClosing += LoginForm_FormClosing;
             FormClosed += LoginForm_FormClosed;
             Load += LoginForm_Load;
             ResumeLayout(false);

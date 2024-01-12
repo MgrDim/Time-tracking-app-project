@@ -96,7 +96,7 @@
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.RenderMode = ToolStripRenderMode.System;
-            menuStrip1.Size = new Size(944, 28);
+            menuStrip1.Size = new Size(920, 28);
             menuStrip1.TabIndex = 4;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -179,7 +179,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(944, 538);
+            ClientSize = new Size(920, 538);
             Controls.Add(pictureBox1);
             Controls.Add(TimerLabel);
             Controls.Add(exportButton);
@@ -189,8 +189,8 @@
             Controls.Add(StartTimerButton);
             Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MaximumSize = new Size(962, 585);
-            MinimumSize = new Size(962, 585);
+            MaximumSize = new Size(938, 585);
+            MinimumSize = new Size(938, 585);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TimeTrackingApp";

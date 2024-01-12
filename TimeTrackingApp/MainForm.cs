@@ -127,7 +127,10 @@ namespace TimeTrackingApp
 
         private void Exit_Click(object sender, EventArgs e)
         {
-            var loginForm = new LoginForm(User);
+            var loginForm = new LoginForm(User)
+            {
+                Owner = this
+            };
             loginForm.ShowDialog();
             InitializeDataGridView();
             TimerLabel.Text = "00:00:00";
