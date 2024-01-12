@@ -35,7 +35,7 @@
             // 
             // NewLoginBox
             // 
-            NewLoginBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            NewLoginBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             NewLoginBox.Location = new Point(132, 60);
             NewLoginBox.MaxLength = 255;
             NewLoginBox.Name = "NewLoginBox";

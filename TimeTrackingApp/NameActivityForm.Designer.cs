@@ -36,7 +36,7 @@
             // 
             // ActivityNameBox
             // 
-            ActivityNameBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            ActivityNameBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             ActivityNameBox.Location = new Point(138, 109);
             ActivityNameBox.MaxLength = 255;
             ActivityNameBox.Name = "ActivityNameBox";

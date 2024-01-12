@@ -37,7 +37,7 @@
             // 
             // LoginBox
             // 
-            LoginBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            LoginBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             LoginBox.Location = new Point(276, 95);
             LoginBox.Name = "LoginBox";
             LoginBox.Size = new Size(267, 27);
@@ -47,7 +47,7 @@
             // 
             // PassBox
             // 
-            PassBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            PassBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             PassBox.Location = new Point(276, 153);
             PassBox.Name = "PassBox";
             PassBox.Size = new Size(267, 27);
@@ -69,7 +69,7 @@
             // 
             // RepPassBox
             // 
-            RepPassBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            RepPassBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             RepPassBox.Location = new Point(276, 209);
             RepPassBox.Name = "RepPassBox";
             RepPassBox.Size = new Size(267, 27);

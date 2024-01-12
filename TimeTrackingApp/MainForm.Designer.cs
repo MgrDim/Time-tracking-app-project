@@ -152,7 +152,7 @@
             // exportButton
             // 
             exportButton.FlatStyle = FlatStyle.System;
-            exportButton.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            exportButton.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             exportButton.Location = new Point(746, 475);
             exportButton.Name = "exportButton";
             exportButton.Size = new Size(161, 51);

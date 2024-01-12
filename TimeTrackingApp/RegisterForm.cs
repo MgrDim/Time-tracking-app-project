@@ -17,7 +17,7 @@ namespace TimeTrackingApp
         string _initialLoginBoxText = "Введите логин";
         string _initialPassBoxText = "Придумайте пароль";
         string _initialRepPassBoxText = "Повторите введенный пароль";
-        public Users User = new ();
+        public Users User = new();
 
         public RegisterForm()
         {

@@ -41,7 +41,7 @@
             // 
             // fileNameBox
             // 
-            fileNameBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            fileNameBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             fileNameBox.Location = new Point(142, 71);
             fileNameBox.MaxLength = 200;
             fileNameBox.Name = "fileNameBox";
@@ -71,7 +71,7 @@
             // firstDateBox
             // 
             firstDateBox.BackColor = SystemColors.Window;
-            firstDateBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            firstDateBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             firstDateBox.Location = new Point(142, 135);
             firstDateBox.Name = "firstDateBox";
             firstDateBox.ReadOnly = true;
@@ -81,7 +81,7 @@
             // secondDateBox
             // 
             secondDateBox.BackColor = SystemColors.Window;
-            secondDateBox.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            secondDateBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             secondDateBox.Location = new Point(142, 200);
             secondDateBox.Name = "secondDateBox";
             secondDateBox.ReadOnly = true;
