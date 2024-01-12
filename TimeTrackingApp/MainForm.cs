@@ -56,8 +56,6 @@ namespace TimeTrackingApp
                 timer.Stop();
 
                 var DB = new DataBase();
-                if (!DB.ConnectionCheck()) return;
-
                 var command = new NpgsqlCommand("CALL update_activities(@activityid, @datetime); " +
                     "CALL insert_users_activities(@userid, @activityid)", DB.Connection);
 

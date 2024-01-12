@@ -143,7 +143,7 @@
             MaximumSize = new Size(672, 411);
             MinimumSize = new Size(672, 411);
             Name = "ExportForm";
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "TimeTrackingApp";
             ResumeLayout(false);
             PerformLayout();

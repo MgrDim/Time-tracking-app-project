@@ -81,7 +81,7 @@
             MaximumSize = new Size(570, 331);
             MinimumSize = new Size(570, 331);
             Name = "NameActivityForm";
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "TimeTrackingApp";
             FormClosing += NameActivityForm_FormClosing;
             ResumeLayout(false);

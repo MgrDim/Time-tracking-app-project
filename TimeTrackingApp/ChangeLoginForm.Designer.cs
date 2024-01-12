@@ -56,7 +56,7 @@
             ChangeLoginButton.UseVisualStyleBackColor = true;
             ChangeLoginButton.Click += ChangeLoginButton_Click;
             // 
-            // ChangeNameForm
+            // ChangeLoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -68,8 +68,8 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(543, 225);
             MinimumSize = new Size(543, 225);
-            Name = "ChangeNameForm";
-            StartPosition = FormStartPosition.CenterScreen;
+            Name = "ChangeLoginForm";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "TimeTrackingApp";
             Load += ChangeNameForm_Load;
             ResumeLayout(false);

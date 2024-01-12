@@ -13,21 +13,6 @@ namespace TimeTrackingApp
         
         public NpgsqlConnection Connection { get { return _connection; } }
 
-        public bool ConnectionCheck()
-        {
-            try
-            {
-                _connection.Open();
-            }
-            catch
-            {
-                MessageBox.Show("Произошла ошибка при соединении с сервером", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            _connection.Close();
-            return true;
-        }
-
         public void OpenConnection()
         {
             try

@@ -84,7 +84,7 @@
             MaximumSize = new Size(570, 331);
             MinimumSize = new Size(570, 331);
             Name = "ChooseCategoryForm";
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "TimeTrackingApp";
             FormClosing += ChooseCategory_FormClosing;
             Load += ChooseCategoryForm_Load;
