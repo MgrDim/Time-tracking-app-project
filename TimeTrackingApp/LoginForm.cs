@@ -65,6 +65,7 @@ namespace TimeTrackingApp
             {
                 User.Login = login;
                 DialogResult = DialogResult.OK;
+                Owner = null;
             }
             else
             {

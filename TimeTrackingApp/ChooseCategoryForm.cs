@@ -43,7 +43,7 @@ namespace TimeTrackingApp
                 Category.SetId();
 
                 var DB = new DataBase();
-                var command = new NpgsqlCommand("CALL add_category_id(@categoryid, @activityid); " +
+                var command = new NpgsqlCommand("CALL insert_activities_categories(@activityid, @categoryid); " +
                     "CALL insert_users_categories(@userid, @categoryid)", DB.Connection);
 
                 command.Parameters.Add("@categoryid", NpgsqlTypes.NpgsqlDbType.Integer).Value = Category.Id;
