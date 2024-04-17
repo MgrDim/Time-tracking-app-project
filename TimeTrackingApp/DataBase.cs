@@ -9,7 +9,7 @@ namespace TimeTrackingApp
 {
     public class DataBase
     {
-        NpgsqlConnection _connection = new NpgsqlConnection("Host=78.153.5.230;Port=8595;Username=dbekbulatov;Password=XNSQTXcGHk;Database=timetrackingapp");
+        NpgsqlConnection _connection = new NpgsqlConnection("Host=IP;Port=port;Username=username;Password=password;Database=timetrackingapp");
         
         public NpgsqlConnection Connection { get { return _connection; } }
 
